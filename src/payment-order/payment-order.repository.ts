@@ -15,7 +15,7 @@ export class PaymentOrderRepository extends Repository<PaymentOrder> {
 		super();
 	}
 	async getPaymentOrders(getPaymentOrdersFilterDto: GetPaymentOrdersFilterDto): Promise<PaymentOrder[]> {
-		const { name, description, dateStart, dateEnd } = getPaymentOrdersFilterDto;
+		const { name, description, dateStart, dateEnd, limit, skip } = getPaymentOrdersFilterDto;
 
 		const query = this.createQueryBuilder('payment_order');
 		if (name) {
@@ -32,8 +32,7 @@ export class PaymentOrderRepository extends Repository<PaymentOrder> {
 				dateStart,
 				dateEnd,
 			});
-		}
-		else {
+		} else {
 			if (dateStart) {
 				query.andWhere('payment_order.date >= :dateStart', { dateStart });
 			}
@@ -43,13 +42,15 @@ export class PaymentOrderRepository extends Repository<PaymentOrder> {
 		}
 
 		try {
+			console.log(skip)
+			query.take(limit ? limit : 10).skip(skip ? skip : 0)
 			query.leftJoinAndSelect('payment_order.orderToArticles', 'order_to_article');
 			query.leftJoinAndSelect('order_to_article.article', 'article');
 
 			const paymentOrders = await query.getMany();
+			console.log(query.getQueryAndParameters())
 			return paymentOrders;
 		} catch (err) {
-			console.error(err);
 			throw new InternalServerErrorException('Error occurred while retrieving payment orders');
 		}
 	}

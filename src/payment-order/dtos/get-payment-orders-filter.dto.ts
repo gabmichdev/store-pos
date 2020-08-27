@@ -14,4 +14,8 @@ export class GetPaymentOrdersFilterDto {
 	@IsNotEmpty()
 	@IsISO8601()
 	dateEnd: string;
+
+	@IsOptional() limit: number;
+
+	@IsOptional() skip: number;
 }

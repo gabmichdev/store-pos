@@ -1,4 +1,4 @@
-import { IsOptional, IsNotEmpty } from 'class-validator';
+import { IsOptional, IsNotEmpty, IsInt } from 'class-validator';
 
 export class GetArticlesFilterDto {
 	@IsOptional() name: string;
@@ -6,4 +6,8 @@ export class GetArticlesFilterDto {
 	@IsOptional()
 	@IsNotEmpty()
 	search: string;
+
+	@IsOptional() limit: number;
+
+	@IsOptional() skip: number;
 }

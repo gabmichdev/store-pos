@@ -7,8 +7,7 @@ import { InternalServerErrorException } from '@nestjs/common';
 @EntityRepository(Article)
 export class ArticleRepository extends Repository<Article> {
 	async getArticles(getArticlesFilterDto: GetArticlesFilterDto): Promise<Article[]> {
-		const { name, search } = getArticlesFilterDto;
-
+		const { name, search, limit, skip } = getArticlesFilterDto;
 		const query = this.createQueryBuilder('article');
 		if (name) {
 			query.andWhere('article.name = :name', { name });
@@ -19,11 +18,11 @@ export class ArticleRepository extends Repository<Article> {
 			});
 		}
 		try {
-			const articles = await query.getMany();
+			const articles = await query.take(limit ? limit : 10).skip(skip ? skip : 0).getMany();
 			return articles;
 		} catch (err) {
-            throw new InternalServerErrorException('Error occurred while retrieving articles')
-        }
+			throw new InternalServerErrorException('Error occurred while retrieving articles');
+		}
 	}
 
 	async createArticle(createArticleDto: CreateArticleDto): Promise<Article> {

@@ -18,7 +18,10 @@ export class ArticleRepository extends Repository<Article> {
 			});
 		}
 		try {
-			const articles = await query.take(limit ? limit : 10).skip(skip ? skip : 0).getMany();
+			const articles = await query
+				.take(limit && limit > 0 ? limit : 10)
+				.skip(skip && skip > 0 ? skip : 0)
+				.getMany();
 			return articles;
 		} catch (err) {
 			throw new InternalServerErrorException('Error occurred while retrieving articles');

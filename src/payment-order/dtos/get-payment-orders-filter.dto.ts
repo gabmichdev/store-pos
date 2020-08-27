@@ -1,4 +1,4 @@
-import { IsOptional, IsNotEmpty, IsISO8601 } from 'class-validator';
+import { IsOptional, IsNotEmpty, IsISO8601, Min } from 'class-validator';
 
 export class GetPaymentOrdersFilterDto {
 	@IsOptional() name: string;
@@ -15,7 +15,9 @@ export class GetPaymentOrdersFilterDto {
 	@IsISO8601()
 	dateEnd: string;
 
-	@IsOptional() limit: number;
+	@IsOptional()
+	limit: number;
 
-	@IsOptional() skip: number;
+	@IsOptional()
+	skip: number;
 }

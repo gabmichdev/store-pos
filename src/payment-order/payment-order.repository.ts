@@ -42,13 +42,12 @@ export class PaymentOrderRepository extends Repository<PaymentOrder> {
 		}
 
 		try {
-			console.log(skip)
-			query.take(limit ? limit : 10).skip(skip ? skip : 0)
+			query.take(limit && limit > 0 ? limit : 10).skip(skip && skip > 0 ? skip : 0);
 			query.leftJoinAndSelect('payment_order.orderToArticles', 'order_to_article');
 			query.leftJoinAndSelect('order_to_article.article', 'article');
 
 			const paymentOrders = await query.getMany();
-			console.log(query.getQueryAndParameters())
+			console.log(query.getQueryAndParameters());
 			return paymentOrders;
 		} catch (err) {
 			throw new InternalServerErrorException('Error occurred while retrieving payment orders');

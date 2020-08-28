@@ -26,6 +26,11 @@ export class PaymentOrderController {
 		return await this.paymentOrderService.createPaymentOrder(createPaymentOrderDto);
 	}
 
+	@Get('/:paymentOrderId')
+	async getPaymentOrder(@Param('paymentOrderId') paymentOrderId: number): Promise<PaymentOrder> {
+		return await this.paymentOrderService.getPaymentOrder(paymentOrderId);
+	}
+
 	@Delete('/:paymentOrderId')
 	async deletePaymentOrder(@Param('paymentOrderId') paymentOrderId: number): Promise<void> {
 		await this.paymentOrderService.deletePaymentOrder(paymentOrderId);

@@ -23,6 +23,14 @@ export class PaymentOrderService {
 		return await this.paymentOrderRepository.getPaymentOrders(paymentOrderFilterDto);
 	}
 
+	async getPaymentOrder(paymentOrderId: number): Promise<PaymentOrder> {
+		const paymentOrder = await this.paymentOrderRepository.findOne(paymentOrderId);
+		if (!paymentOrder) {
+			throw new NotFoundException('Payment order not found');
+		}
+		return paymentOrder;
+	}
+
 	async createPaymentOrder(createPaymentOrderDto: CreatePaymentOrderDto): Promise<PaymentOrder> {
 		const articles = await this.articleRepository.findByIds(
 			createPaymentOrderDto.articles.map((article: ArticleUpdate) => article.id)
@@ -49,8 +57,9 @@ export class PaymentOrderService {
 			throw new NotFoundException('Payment order does not exist');
 		}
 	}
-
+	
 	async updatePaymentOrder(paymentOrderId: number, updatePaymentOrderDto: UpdatePaymentOrderDto): Promise<void> {
+		const paymentOrder = await this.getPaymentOrder(paymentOrderId);
 		const { name, description } = updatePaymentOrderDto;
 		await this.orderToArticleRepository
 			.createQueryBuilder()
@@ -63,7 +72,6 @@ export class PaymentOrderService {
 		if (articles.length !== updatePaymentOrderDto.articles.length) {
 			throw new BadRequestException('Some of the articles do not exist');
 		}
-		const paymentOrder = await this.paymentOrderRepository.findOneOrFail(paymentOrderId);
 		for (let i = 0; i < articles.length; i++) {
 			const newOrderToArticle = new OrderToArticle();
 			newOrderToArticle.articleCount = updatePaymentOrderDto.articles[i].amount;

@@ -1,5 +1,4 @@
-import { IsOptional, IsNotEmpty, IsISO8601, IsArray } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsOptional, IsNotEmpty, IsISO8601, IsArray, ArrayNotEmpty } from 'class-validator';
 import { ArticleUpdate } from '../article-update.interface';
 
 export class UpdatePaymentOrderDto {
@@ -12,5 +11,7 @@ export class UpdatePaymentOrderDto {
 	@IsISO8601()
 	date: string;
 
-	@IsArray() articles: ArticleUpdate[];
+	@IsArray()
+	@ArrayNotEmpty()
+	articles: ArticleUpdate[];
 }

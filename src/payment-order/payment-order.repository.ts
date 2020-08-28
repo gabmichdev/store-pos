@@ -47,7 +47,6 @@ export class PaymentOrderRepository extends Repository<PaymentOrder> {
 			query.leftJoinAndSelect('order_to_article.article', 'article');
 
 			const paymentOrders = await query.getMany();
-			console.log(query.getQueryAndParameters());
 			return paymentOrders;
 		} catch (err) {
 			throw new InternalServerErrorException('Error occurred while retrieving payment orders');

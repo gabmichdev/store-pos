@@ -36,7 +36,6 @@ export class ArticlesController {
 
 	@Get('/:articleId')
 	async getArticleById(@Param('articleId') articleId: number): Promise<Article> {
-		console.log(articleId);
 		return await this.articleService.getArticleById(articleId);
 	}
 

@@ -8,6 +8,14 @@ La API utilizará una base de datos relacional MySQL y el servidor estará escri
 
 ## [Documentación] de la API versión 1.0.0
 
-
-
+### Para inicializar servidor:
+Correr el comando:
+```
+npm install
+```
+Seguido del comando:
+```
+npm start
+```
+para inicializar el servidor.
 [Documentación]: https://app.swaggerhub.com/apis/gabmichdev/store_pos/1.0.0

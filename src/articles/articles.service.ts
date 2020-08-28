@@ -42,8 +42,8 @@ export class ArticlesService {
 		const popularArticles = await this.articleRepository
 			.createQueryBuilder()
 			.orderBy('article.ordered', 'DESC')
+			.limit(count && count > 1 ? count : 1)
 			.getMany();
-		console.log(count);
-		return popularArticles.splice(0, count ? count : 1);
+		return popularArticles;
 	}
 }
